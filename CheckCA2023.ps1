@@ -1,15 +1,16 @@
 ﻿#Requires -Version 5.1
 <#
 .SYNOPSIS
-    Application CheckCA2023 with XAML interface to read all the datas involved in the Windows UEFI CA 2023 update process.
+    Application CheckCA2023 with XAML interface to read all the datas involved
+    in the Windows UEFI CA 2023 update process.
 .DESCRIPTION
     Read data from WMI BIOS, SecureBoot certificate databases, Registry, 
     and TPM-WMI events. Display results in a WPF window with a refresh button.
 .NOTES
     Author  : Claude Boucher - sometools.eu
-    Contact : checkca2023@sometools.eu
-    Version : 1.5.0
-    Date    : 2026-05-05
+    Contact : support@sometools.eu
+    Version : 1.6.0
+    Date    : 2026-05-12
     License : MIT
     GitHub  : https://github.com/claude-boucher/CheckCA2023
 #>
@@ -595,7 +596,7 @@ try {
                     <TextBlock Canvas.Left="61" Canvas.Top="26" Text="UEFI Certificate Monitor" FontFamily="Segoe UI"
                         FontSize="9" Foreground="#8AAFD4" />
                     <!-- Version -->
-                    <TextBlock Canvas.Left="61" Canvas.Top="38" Text="Version : 1.5.0" FontFamily="Segoe UI"
+                    <TextBlock Canvas.Left="61" Canvas.Top="38" Text="Version : 1.6.0" FontFamily="Segoe UI"
                         FontSize="10" FontWeight="Bold" Foreground="#8AAFD4" />
                 </Canvas>
             </Border>
@@ -608,38 +609,81 @@ try {
                         <TextBox x:Name="WinVer" Width="230" FontWeight="SemiBold" Margin="-3,2,0,2" Text="Windows 11 Pro 24H2"
                                 FontSize="12" Padding="0,0,0,0" IsReadOnly="True" BorderThickness="0"
                                 Background="Transparent" IsTabStop="False" />
+
+                        <Grid Margin="0,0,0,0"  >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="72"/>
+                                <ColumnDefinition Width="25"/>
+                                <ColumnDefinition Width="135"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition MinHeight="20"/>
+                                <RowDefinition MinHeight="0"/>
+                                <RowDefinition MinHeight="20"/>
+                                <RowDefinition MinHeight="20"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Grid.Column="0"
+                                       Text="Build :"           FontSize="12" FontWeight="SemiBold" TextAlignment="Right" Margin="0,1,0,0" />
+                            <TextBlock Grid.Row="2" Grid.Column="0"
+                                       Text="Secure Boot :"    FontSize="12" FontWeight="SemiBold" TextAlignment="Right" Margin="0,0,0,0" />
+                            <TextBlock Grid.Row="3" Grid.Column="0"
+                                       Text="BitLocker :"      FontSize="12" FontWeight="SemiBold" TextAlignment="Right" Margin="0,0,0,0" />
+
+                            <TextBlock Grid.Row="0" Grid.Column="1" Text="✔"
+                                       x:Name="IcoBuild"        FontSize="14" Margin="5,-4,0,0" />
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="✔"
+                                       x:Name="tbSecureBoot"    FontSize="14" Margin="5,-4,0,0" />
+                            <TextBlock Grid.Row="3" Grid.Column="1" Text="✔"
+                                       x:Name="BitLockerIcon"   FontSize="14" Margin="5,-4,0,0" />
+
+                            <TextBox Grid.Row="0" Grid.Column="2" Text="XXXXX.YYYY" FontWeight="SemiBold"
+                                        x:Name="WinBuild" FontSize="14" Height="16" Width="90" Margin="5,0,0,2" Padding="0,-3,0,0"   
+                                        IsReadOnly="True" BorderThickness="0.5" Background="#EEE" IsTabStop="False" HorizontalAlignment="Left" />
+
+                            <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" Orientation="Horizontal" >
+                                <TextBlock x:Name="MinBuildTxt"   Text="Minimum Build : " FontWeight="SemiBold" FontSize="11"
+                                            Background="Transparent" Foreground="DarkRed" Height="12" Margin="0,-4,0,5" />
+                                <TextBlock x:Name="MinBuildValue" Text="26100.6060" FontWeight="SemiBold" FontSize="11" 
+                                            Background="Transparent" Foreground="DarkRed" Height="12" Margin="0,-4,0,5" />
+                        </StackPanel>
+
+                            <TextBox Grid.Row="2" Grid.Column="2" FontWeight="SemiBold" 
+                                       x:Name="SecureBootStatus" FontSize="14" Height="16" Width="125"  Margin="5,1,0,3" Padding="0,-3,0,0"
+                                        BorderThickness="0" Background="Transparent" HorizontalAlignment="Left" />
+
+                            <TextBox Grid.Row="3" Grid.Column="2" FontWeight="SemiBold" 
+                                       x:Name="BitLockerStatus" FontSize="14" Height="16" Width="110"  Margin="5,0,0,2" Padding="0,-3,0,0"
+                                        BorderThickness="0" Background="Transparent" HorizontalAlignment="Left" />
+
+
+
+                        </Grid>
+
+
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Left">
-                            <TextBlock FontWeight="SemiBold" Text="Build : " Margin="2,0,0,0" FontSize="12" Padding="0,4,0,4" />
-                            <TextBox x:Name="WinBuild" FontWeight="SemiBold" Text="xxxx.yyyy" HorizontalContentAlignment="Center"
-                                    FontSize="12" IsReadOnly="True" BorderThickness="0.5" Background="#EEE" IsTabStop="False"
-                                    Margin="0,0,2,2" Padding="2,0,2,0" Height="18" />                            
-                            <TextBlock x:Name="IcoBuild"    Text="✔" FontSize="14" Margin="0,0,5,0" Width="20" />
-                            <TextBlock x:Name="MinBuildTxt" Text="Minimum Build" FontWeight="SemiBold" FontSize="12"
-                                       Background="Transparent" Foreground="DarkRed" Margin="0,0,0,0" Height="18" Padding="0,4,0,0" />
+
+
+
+
                         </StackPanel>
 
                         <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Left">
-                            <TextBlock Text="Secure Boot : " Width="75" FontSize="12" Margin="2,0,0,2"  FontWeight="SemiBold" TextAlignment="Right" />
-                            <TextBlock x:Name="tbSecureBoot"    Text="✔" FontSize="14" Margin="0,-4,0,2" Width="20" />
-                            <TextBlock x:Name="MinBuildValue" Text="26100.6060" FontWeight="SemiBold" FontSize="12"
-                                       Background="Transparent" Foreground="DarkRed" Margin="48,0,0,0" Height="18" Padding="0,0,0,0" />
+
+
+
                         </StackPanel>
 
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,0" HorizontalAlignment="Left">
-                            <TextBlock Text="BitLocker : " Width="75" FontSize="12" Margin="2,0,0,2"
-                                    FontWeight="SemiBold" TextAlignment="Right" />
-                            <TextBlock x:Name="BitLockerIcon" Width="16" FontSize="14" Margin="2,-5,0,2"
-                                        FontWeight="SemiBold" TextAlignment="Center" />
-                            <TextBlock x:Name="BitLockerStatus" Width="110" FontSize="12" Margin="10,0,0,2"
-                                        FontWeight="SemiBold" TextAlignment="Left" />
-                        </StackPanel>
+
+
+
 
                         <Border Width="200" BorderThickness="0,1.5,0,0" BorderBrush="Gray" Margin="15,3,0,3" />
 
                         <Grid Margin="0,0,0,0"  >
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="76"/>
-                                <ColumnDefinition Width="155"/>
+                                <ColumnDefinition Width="74"/>
+                                <ColumnDefinition Width="157"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="Auto"/>
@@ -1197,6 +1241,7 @@ $BorderStatus   = Get-XamlControl -Name "BorderStatus"
 $BorderTitleStatus   = Get-XamlControl -Name "BorderTitleStatus"
 
 $tbSecureBoot   = Get-XamlControl -Name "tbSecureBoot"
+$SecureBootStatus  = Get-XamlControl -Name "SecureBootStatus"
 $WinVer         = Get-XamlControl -Name "WinVer"
 $WinBuild       = Get-XamlControl -Name "WinBuild"
 
@@ -1227,11 +1272,15 @@ $TxtLastRefresh = Get-XamlControl -Name "TxtLastRefresh"
 function Get-SecureBootState {
     param (
         [Parameter(Mandatory=$true)]
-        [System.Windows.Controls.TextBlock]$OutputControl
+        [System.Windows.Controls.TextBlock]$OutputControl,
+
+        [Parameter(Mandatory=$false)]
+        [System.Windows.Controls.TextBox]$ModeControl = $null
     )
 
     try {
         $state = Confirm-SecureBootUEFI
+
         if ($state) {
             $OutputControl.Text       = "✔"
             $OutputControl.Foreground = "Green"
@@ -1247,6 +1296,31 @@ function Get-SecureBootState {
     catch {
         $OutputControl.Text       = "?"
         $OutputControl.Foreground = "OrangeRed"
+    }
+
+    # Mode Secure Boot (variables UEFI standard, aucun WMI constructeur)
+    if ($null -ne $ModeControl) {
+        try {
+            $setup    = (Get-SecureBootUEFI SetupMode).bytes[0]
+            $audit    = try { (Get-SecureBootUEFI AuditMode).bytes[0] }    catch { $null }
+            $deployed = try { (Get-SecureBootUEFI DeployedMode).bytes[0] } catch { $null }
+            $sb       = try { (Get-SecureBootUEFI SecureBoot).bytes[0] }   catch { $null }
+
+            if     ($sb -eq 1 -and $deployed -eq 1)           { $mode = "Deployed Mode";  $color = "Green" }
+            elseif ($sb -eq 1 -and $deployed -eq 0)           { $mode = "User Mode";      $color = "Green" }
+            elseif ($sb -eq 1 -and $null -eq $deployed)       { $mode = "User / Deployed"; $color = "Green" }
+            elseif ($setup -eq 1 -and $audit -eq 1)           { $mode = "Audit Mode";     $color = "OrangeRed" }
+            elseif ($setup -eq 1 -and $audit -eq 0)           { $mode = "Setup Mode";     $color = "OrangeRed" }
+            elseif ($setup -eq 1 -and $null -eq $audit)       { $mode = "Setup / Audit";  $color = "OrangeRed" }
+            else                                               { $mode = "Disabled";       $color = "Red" }
+
+            $ModeControl.Text       = $mode
+            $ModeControl.Foreground = $color
+        }
+        catch {
+            $ModeControl.Text       = "?"
+            $ModeControl.Foreground = "OrangeRed"
+        }
     }
 }
 
@@ -1268,15 +1342,15 @@ function Get-WindowsVersionInfo {
         if ($build -ge 28000) {
             $IcoBuild.Text            = "✔"
             $IcoBuild.Foreground      = "Green"
-            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Hidden
-            $MinBuildValue.Visibility = [System.Windows.Visibility]::Hidden
+            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Collapsed
+            $MinBuildValue.Visibility = [System.Windows.Visibility]::Collapsed
             $MinBuildValue.Text       = ""
         }
         elseif (($build -eq 26200 -or $build -eq 26100) -and $ubr -ge 6899) {
             $IcoBuild.Text            = "✔"
             $IcoBuild.Foreground      = "Green"
-            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Hidden
-            $MinBuildValue.Visibility = [System.Windows.Visibility]::Hidden
+            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Collapsed
+            $MinBuildValue.Visibility = [System.Windows.Visibility]::Collapsed
             $MinBuildValue.Text       = ""
         }
         elseif (($build -eq 26200 -or $build -eq 26100) -and $ubr -lt 6899) {
@@ -1289,8 +1363,8 @@ function Get-WindowsVersionInfo {
         elseif (($build -eq 22621 -or $build -eq 22631) -and $ubr -ge 6060) {
             $IcoBuild.Text            = "✔"
             $IcoBuild.Foreground      = "Green"
-            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Hidden
-            $MinBuildValue.Visibility = [System.Windows.Visibility]::Hidden
+            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Collapsed
+            $MinBuildValue.Visibility = [System.Windows.Visibility]::Collapsed
             $MinBuildValue.Text       = ""
         }
         elseif (($build -eq 22621 -or $build -eq 22631) -and $ubr -lt 6060) {
@@ -1303,8 +1377,8 @@ function Get-WindowsVersionInfo {
         elseif (($build -eq 19044 -or $build -eq 19045) -and $ubr -ge 6456) {
             $IcoBuild.Text            = "✔"
             $IcoBuild.Foreground      = "Green"
-            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Hidden
-            $MinBuildValue.Visibility = [System.Windows.Visibility]::Hidden
+            $MinBuildTxt.Visibility   = [System.Windows.Visibility]::Collapsed
+            $MinBuildValue.Visibility = [System.Windows.Visibility]::Collapsed
             $MinBuildValue.Text       = ""
         }
         elseif (($build -eq 19044 -or $build -eq 19045) -and $ubr -lt 6456) {
@@ -2652,7 +2726,7 @@ $window.Add_Loaded({
     } else {
         Update-StatusLabel -Message "Ready to check" -Color "Green"
     }
-    Get-SecureBootState -OutputControl $tbSecureBoot
+    Get-SecureBootState -OutputControl $tbSecureBoot -ModeControl $SecureBootStatus
     Get-WindowsVersionInfo -VerControl $WinVer -BuildControl $WinBuild
     Get-BiosInfo    -SystemFamilyControl $SystemFamily `
                     -MachineTypeControl $MachineType `

@@ -2,7 +2,7 @@
 
 > A PowerShell utility with a XAML GUI to monitor and validate the Microsoft CA 2023 Secure Boot certificate update process on Windows devices.
 
-![Version](https://img.shields.io/badge/version-1.3.0-blue)
+![Version](https://img.shields.io/badge/version-1.6.0-blue)
 ![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-blue?logo=powershell)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows-lightgrey?logo=windows)
@@ -30,17 +30,17 @@
 
 **CheckCA2023** is a PowerShell script with a graphical user interface (XAML/WPF) that reads and displays all relevant data needed during the deployment of the new Microsoft CA 2023 Secure Boot certificates.
 
-Instead of manually querying the registry, WMI, BIOS, and Event Viewer, CheckCA2023 consolidates all the information into a single, readable dashboard — making it easier for IT professionals to monitor the update status across their devices.
+Instead of manually querying the registry, WMI, BIOS, and Event Viewer, CheckCA2023 consolidates all the information into a single, readable dashboard : making it easier for IT professionals to monitor the update status across their devices.
 
 Click **MORE** to reveal additional diagnostic panels, including a bit-level breakdown of the `AvailableUpdates` registry value and bootloader certificate details for `bootmgfw.efi`.
 
 > ⚠️ **Scope of this tool**
-> CheckCA2023 monitors the **Registry Key deployment method** — one of several methods documented by Microsoft for deploying the CA 2023 Secure Boot certificate updates. Other deployment methods (Group Policy Objects, Microsoft Intune, WinCS APIs) are not covered by this tool.
-> For the full list of available deployment methods, refer to: [Secure Boot Certificate Updates — Guidance for IT Professionals](https://support.microsoft.com/en-us/topic/secure-boot-certificate-updates-guidance-for-it-professionals-and-organizations-e2b43f9f-b424-42df-bc6a-8476db65ab2f)
+> CheckCA2023 monitors the **Registry Key deployment method**, one of several methods documented by Microsoft for deploying the CA 2023 Secure Boot certificate updates. Other deployment methods (Group Policy Objects, Microsoft Intune, WinCS APIs) are not covered by this tool.
+> For the full list of available deployment methods, refer to: [Secure Boot Certificate Updates : Guidance for IT Professionals](https://support.microsoft.com/en-us/topic/secure-boot-certificate-updates-guidance-for-it-professionals-and-organizations-e2b43f9f-b424-42df-bc6a-8476db65ab2f)
 
 > ✅ Successfully tested on <img src="images/ThinkPad_Logo.png" alt="ThinkPad" height="38"/>‎ ‎ ‎  <img src="images/ThinkCentre_Logo.png" alt="ThinkCentre" height="38"/>‎ ‎ ‎  <img src="images/ThinkStation_Logo.png" alt="ThinkStation" height="38"/>
 
-![CheckCA2023 Interface](images/Main_1.3.0_Less.png)
+![CheckCA2023 Interface](images/Main_1.6.0_Less.png)
 
 ---
 
@@ -67,7 +67,7 @@ Failure to apply these updates before the old certificates expire may result in 
 Your system must be running a build released on or after **October 14, 2025**.
 
 - **Windows 10 22H2** and newer (including 21H2 LTSC)
-- **Windows 11** — all supported versions
+- **Windows 11** : all supported versions
 - **Windows Server 2022** and later
 
 > Verify your build at: [KB5066835 - October 14, 2025](https://support.microsoft.com/en-us/topic/october-14-2025-kb5066835-os-builds-26200-6899-and-26100-6899-1db237d8-9f3b-4218-9515-3e0a32729685)
@@ -81,7 +81,7 @@ Secure Boot must be **enabled** in the BIOS/UEFI firmware of the device.
 
 - **PowerShell 5.1** minimum (included with Windows 10/11)
 - Must be run with **Administrator privileges**
-- No external module required — CheckCA2023 reads UEFI certificate databases natively
+- No external module required : CheckCA2023 reads UEFI certificate databases natively
 
 ---
 
@@ -105,7 +105,7 @@ cd CheckCA2023
 .\CheckCA2023.ps1
 ```
 
-> ⚠️ **Run as Administrator** — reading UEFI variables and registry keys requires elevated privileges.
+> ⚠️ **Run as Administrator** : reading UEFI variables and registry keys requires elevated privileges.
 
 ---
 
@@ -113,11 +113,11 @@ cd CheckCA2023
 
 Launch the script as Administrator. The GUI will open and automatically read the current state of your system.
 
-Use the **Check / Refresh** button to update the displayed values at any time — especially useful while the Secure Boot update scheduled task is running in the background.
+Use the **Check / Refresh** button to update the displayed values at any time : especially useful while the Secure Boot update scheduled task is running in the background.
 
 The interface provides three action buttons to assist with the deployment process:
 
-<img src="images/Button_1.3.0.png" alt="New_Button_1.3.0" height="250"/>
+<img src="images/Button_1.6.0.png" alt="New_Button_1.6.0" height="250"/>
 
 | Button | Action |
 |---|---|
@@ -127,15 +127,17 @@ The interface provides three action buttons to assist with the deployment proces
 
 > ⚠️ **Administrator privileges are required** to use these action buttons.
 
-The **Configuration** panel now also displays the **BitLocker** protection status of the system drive, including the active key protector type (TPM, TPM+PIN, Password) — giving administrators immediate visibility into the encryption state before triggering any Secure Boot update.
+The **Configuration** panel now also displays the **BitLocker** protection status of the system drive, including the active key protector type (TPM, TPM+PIN, Password), giving administrators immediate visibility into the encryption state before triggering any Secure Boot update.
 
-<img src="images/BitLocker_1.3.0.png" alt="BitLocker_1.3.0" height="200"/>
+<img src="images/BitLocker_1.6.0.png" alt="BitLocker_1.6.0" height="200"/>
+
+The **Configuration** panel also displays the **Secure Boot operating mode** (User / Deployed / Setup / Audit) read from standard UEFI variables, with no OEM WMI dependency. This makes it easy to immediately spot machines stuck in **Setup Mode**, which cannot complete the CA 2023 deployment and would otherwise require time spent diagnosing downstream symptoms.
 
 ## "One More Thing..."
 
 Click the **MORE** button to expand the interface and reveal two additional diagnostic panels.
 
-![CheckCA2023 Interface - More](images/Main_1.3.0_More.png)
+![CheckCA2023 Interface - More](images/Main_1.6.0_More.png)
 
 - **Show GUID** view *(since v1.4.0)*: reveals `SignatureOwner` GUIDs in the 
   Secure Boot variables panel, with color coding to distinguish Microsoft-owned 
@@ -156,9 +158,9 @@ Each row includes a detailed tooltip explaining the exact operation performed by
 
 | Color | Meaning |
 |---|---|
-| **Gray** | Bit inactive — operation not scheduled |
-| **Black** | Bit active — operation scheduled or pending |
-| **Green** | Bit was active at previous refresh and is now cleared — operation completed |
+| **Gray** | Bit inactive : operation not scheduled |
+| **Black** | Bit active : operation scheduled or pending |
+| **Green** | Bit was active at previous refresh and is now cleared : operation completed |
 
 ### Bootloader certificates
 
@@ -171,11 +173,11 @@ Displays the signing certificate, thumbprint, and file version of `bootmgfw.efi`
 
 The certificate authority is color-coded: **green** for CA 2023, default color for PCA 2011. The full thumbprint is available via tooltip.
 
-> 💡 In a healthy post-migration state, the ESP bootloader should be signed with **CA 2023** while the system volume may still show **PCA 2011** — this is expected behavior.
+> 💡 In a healthy post-migration state, the ESP bootloader should be signed with **CA 2023** while the system volume may still show **PCA 2011** : this is expected behavior.
 
 ### Last refresh
 
-Displays the date and time of the last data refresh — useful when sharing screenshots for remote diagnostics.
+Displays the date and time of the last data refresh : useful when sharing screenshots for remote diagnostics.
 
 ---
 
@@ -186,12 +188,12 @@ CheckCA2023 consolidates data from multiple system sources:
 | Source | Data |
 |---|---|
 | **WMI** | System information, BIOS details |
-| **BIOS / UEFI Firmware** | Secure Boot state, firmware version |
+| **BIOS / UEFI Firmware** | Secure Boot state and operating mode (User / Deployed / Setup / Audit), firmware version |
 | **BitLocker** | Protection status and active key protector type |
-| **Secure Boot PK / PKDefault** | Platform Key — active and factory default |
-| **Secure Boot KEK / KEKDefault** | Key Exchange Keys — active and factory default |
-| **Secure Boot DB / DBDefault** | Allowed Signatures — active and factory default |
-| **Secure Boot DBX / DBXDefault** | Forbidden Signatures — active and factory default (X.509 certificates only) |
+| **Secure Boot PK / PKDefault** | Platform Key : active and factory default |
+| **Secure Boot KEK / KEKDefault** | Key Exchange Keys : active and factory default |
+| **Secure Boot DB / DBDefault** | Allowed Signatures : active and factory default |
+| **Secure Boot DBX / DBXDefault** | Forbidden Signatures : active and factory default (X.509 certificates only) |
 | **Registry** | Update progress (`AvailableUpdates`), status (`UEFICA2023Status`), capability (`WindowsUEFICA2023Capable`), confidence level (`ConfidenceLevel`) |
 | **Bootloader** | Signing certificate, thumbprint and file version of `bootmgfw.efi` on both system volume and EFI System Partition |
 | **Event Viewer** | Secure Boot DB and DBX variable update events (TPM-WMI source) |
@@ -210,19 +212,19 @@ CheckCA2023 consolidates data from multiple system sources:
 
 #### `AvailableUpdates` (REG_DWORD)
 
-This value controls which Secure Boot update operations are scheduled. It is a bitmask — each bit represents a specific operation.
+This value controls which Secure Boot update operations are scheduled. It is a bitmask : each bit represents a specific operation.
 
 **Known progression sequence:**
 
 | Value | Meaning |
 |---|---|
-| `0x5944` | All relevant updates scheduled — starting point for IT-managed deployment |
+| `0x5944` | All relevant updates scheduled : starting point for IT-managed deployment |
 | `0x5904` | Windows UEFI CA 2023 applied to DB |
 | `0x5104` | Microsoft Option ROM UEFI CA 2023 applied to DB |
 | `0x4104` | Microsoft UEFI CA 2023 applied to DB |
 | `0x4100` | CA 2023-signed boot manager applied |
-| `0x4000` | Conditional guard bit only — all operations complete, pending final reboot |
-| `0x0000` | No updates scheduled — process complete |
+| `0x4000` | Conditional guard bit only : all operations complete, pending final reboot |
+| `0x0000` | No updates scheduled : process complete |
 
 **Individual bit flags:**
 
@@ -269,33 +271,33 @@ Contains the TPM-WMI Event ID of the last error encountered during the update pr
 | Value | Meaning |
 |---|---|
 | `High Confidence` | Device has demonstrated it can successfully update Secure Boot certificates |
-| `Temporarily Paused` | Update paused due to a known issue — check for a firmware update |
+| `Temporarily Paused` | Update paused due to a known issue. Check for a firmware update |
 | `Not Supported – Known Limitation` | Device does not support the automated update path |
-| `Under Observation - More Data Needed` | Insufficient data to classify — update may be deferred |
-| `No Data Observed - Action Required` | Device not observed in Microsoft update data — administrator action required |
+| `Under Observation - More Data Needed` | Insufficient data to classify : update may be deferred |
+| `No Data Observed - Action Required` | Device not observed in Microsoft update data. Administrator action required |
 
 ---
 
 ## Update Process Summary
 
-> This section is provided for reference. Since **v1.1.0**, CheckCA2023 includes action buttons to trigger these steps directly from the GUI — see [Usage](#usage).
+> This section is provided for reference. Since **v1.1.0**, CheckCA2023 includes action buttons to trigger these steps directly from the GUI : see [Usage](#usage).
 
 To manually initiate the Secure Boot certificate update (IT-managed deployment):
 
-**Step 1 — Set the registry key to start the process:**
+**Step 1 : Set the registry key to start the process:**
 ```powershell
 reg add HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Secureboot /v AvailableUpdates /t REG_DWORD /d 0x5944 /f
 ```
 
-**Step 2 — Start the scheduled task:**
+**Step 2 : Start the scheduled task:**
 ```powershell
 Start-ScheduledTask -TaskName "\Microsoft\Windows\PI\Secure-Boot-Update"
 ```
 > You can now use the **Check / Refresh** button in CheckCA2023 to monitor progress in real time.
 
-**Step 3 — Wait until `AvailableUpdates` reaches `0x4000`, then reboot.**
+**Step 3 : Wait until `AvailableUpdates` reaches `0x4000`, then reboot.**
 
-**Step 4 — After reboot, run the scheduled task a second time:**
+**Step 4 : After reboot, run the scheduled task a second time:**
 ```powershell
 Start-ScheduledTask -TaskName "\Microsoft\Windows\PI\Secure-Boot-Update"
 ```
@@ -324,9 +326,9 @@ These error codes are reported as Windows Event Log entries (Source: **TPM-WMI**
 | **1799** | ℹ️ Information | The signed boot manager has been successfully updated to the version signed with the Windows UEFI CA 2023 certificate. | No action required. |
 | **1801** | ⚠️ Warning | The required new Secure Boot certificates have **not** been applied to the device's firmware. The event includes device attributes, a BucketConfidenceLevel, and an UpdateType value. | Monitor the process and investigate if the state does not progress. |
 | **1802** | ⚠️ Warning | The Secure Boot certificate update is temporarily paused for this device due to a known issue. | Check for a firmware update from your device manufacturer. |
-| **1803** | ℹ️ Information | The Secure Boot certificate update has been deferred for this device. | No immediate action required — monitor progress. |
+| **1803** | ℹ️ Information | The Secure Boot certificate update has been deferred for this device. | No immediate action required : monitor progress. |
 | **1795** | ❌ Error | The system firmware returned an error when attempting to update a Secure Boot variable (DB, DBX, or KEK). The event log entry includes the firmware error code. | Contact your device manufacturer to determine if a firmware update is available. |
-| **1808** | ✅ Information | **Expected positive outcome.** All required new Secure Boot certificates have been applied to the firmware, **and** the boot manager has been updated to the version signed by the Windows UEFI CA 2023 certificate. | No action required — the update is complete. |
+| **1808** | ✅ Information | **Expected positive outcome.** All required new Secure Boot certificates have been applied to the firmware, **and** the boot manager has been updated to the version signed by the Windows UEFI CA 2023 certificate. | No action required : the update is complete. |
 
 > For the full list of Secure Boot event IDs, refer to: [Secure Boot DB and DBX variable update events](https://support.microsoft.com/en-us/topic/secure-boot-db-and-dbx-variable-update-events-37e47cf8-608b-4a87-8175-bdead630eb69)
 
@@ -337,19 +339,19 @@ These error codes are reported as Windows Event Log entries (Source: **TPM-WMI**
 | Resource | Link |
 |---|---|
 | Windows Secure Boot Certificate Expiration and CA Updates | [Microsoft Support](https://support.microsoft.com/en-us/topic/windows-secure-boot-certificate-expiration-and-ca-updates-7ff40d33-95dc-4c3c-8725-a9b95457578e) |
-| Secure Boot Certificate Updates — IT Pro Guidance | [Microsoft Support EN](https://support.microsoft.com/en-us/topic/secure-boot-certificate-updates-guidance-for-it-professionals-and-organizations-e2b43f9f-b424-42df-bc6a-8476db65ab2f) |
-| Secure Boot Certificate Updates — Guide IT Pro (FR) | [Microsoft Support FR](https://support.microsoft.com/fr-fr/topic/mises-à-jour-des-certificats-de-démarrage-sécurisé-conseils-pour-les-professionnels-de-l-informatique-et-les-organisations-e2b43f9f-b424-42df-bc6a-8476db65ab2f) |
-| Registry Key Updates — IT-Managed Deployment | [Microsoft Support](https://support.microsoft.com/en-au/topic/registry-key-updates-for-secure-boot-windows-devices-with-it-managed-updates-a7be69c9-4634-42e1-9ca1-df06f43f360d) |
+| Secure Boot Certificate Updates : IT Pro Guidance | [Microsoft Support EN](https://support.microsoft.com/en-us/topic/secure-boot-certificate-updates-guidance-for-it-professionals-and-organizations-e2b43f9f-b424-42df-bc6a-8476db65ab2f) |
+| Secure Boot Certificate Updates : Guide IT Pro (FR) | [Microsoft Support FR](https://support.microsoft.com/fr-fr/topic/mises-à-jour-des-certificats-de-démarrage-sécurisé-conseils-pour-les-professionnels-de-l-informatique-et-les-organisations-e2b43f9f-b424-42df-bc6a-8476db65ab2f) |
+| Registry Key Updates : IT-Managed Deployment | [Microsoft Support](https://support.microsoft.com/en-au/topic/registry-key-updates-for-secure-boot-windows-devices-with-it-managed-updates-a7be69c9-4634-42e1-9ca1-df06f43f360d) |
 | Secure Boot DB and DBX Variable Update Events | [Microsoft Support](https://support.microsoft.com/en-us/topic/secure-boot-db-and-dbx-variable-update-events-37e47cf8-608b-4a87-8175-bdead630eb69) |
-| KB5066835 — October 14, 2025 Minimum Build | [Microsoft Support](https://support.microsoft.com/en-us/topic/october-14-2025-kb5066835-os-builds-26200-6899-and-26100-6899-1db237d8-9f3b-4218-9515-3e0a32729685) |
+| KB5066835 : October 14, 2025 Minimum Build | [Microsoft Support](https://support.microsoft.com/en-us/topic/october-14-2025-kb5066835-os-builds-26200-6899-and-26100-6899-1db237d8-9f3b-4218-9515-3e0a32729685) |
 
 ---
 
 ## License
 
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+This project is licensed under the **MIT License** : see the [LICENSE](LICENSE) file for details.
 
 ---
 
 
-*CheckCA2023 v1.3.0 — Helping IT professionals navigate the Microsoft CA 2023 Secure Boot certificate transition.*
+*CheckCA2023 v1.6.0 : Helping IT professionals navigate the Microsoft CA 2023 Secure Boot certificate transition.*
