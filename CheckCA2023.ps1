@@ -1254,7 +1254,7 @@ $MachineType    = Get-XamlControl -Name "MachineType"
 $BiosVer        = Get-XamlControl -Name "BiosVer"
 $BiosDate       = Get-XamlControl -Name "BiosDate"
 
-$script:EspDriveLetter = "S"
+$script:EspDriveLetter = "Y"
 $TxtBootSysLabel  = Get-XamlControl -Name "TxtBootSysLabel"
 $TxtBootSysThumb  = Get-XamlControl -Name "TxtBootSysThumb"
 $TxtBootSysVersion = Get-XamlControl -Name "TxtBootSysVersion"
